@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 from scipy.fftpack import rfft, irfft
 from tensorflow.audio import decode_wav
+import os
 
 '''
 curr_batch - The current batch of the training data we are looking at.songs_per_batch - How songs we want to load in per batchsess - Our TensorFlow session object
@@ -17,7 +18,9 @@ def get_next_batch(curr_batch, songs_per_batch, sess):
   start_position = curr_batch * songs_per_batch
   end_position = start_position + songs_per_batch
   for idx in range(start_position, end_position):
-    audio_binary = tf.read_file(file_arr[idx])
+    os.system('bash mktrainwav.sh %d trainsample.wav' % idx)
+    audio_binary = tf.read_file('trainsample.wav')
+    os.remove('trainsample.wav')
     wav_decoder = decode_wav(
       audio_binary, desired_channels=1
     )
