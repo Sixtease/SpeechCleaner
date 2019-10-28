@@ -37,15 +37,17 @@ if [ "$reallen" -eq "$len" ]; then
 elif [ -z "$reallen" ]; then
     echo failed
     savepos "$file" "$endpos"
-    exit 2
+    exec "$0" "$outfile"
+    #exit 2
 elif [ "$reallen" -lt "$len" ]; then
     echo too short
     rm "$outfile"
     newfile=`ls "$datadir" | grep -A 1 "$lastfile" | tail -n +2`
     if [ -z "$newfile" ]; then
         echo no more files
-        exit 1
+        echo > "$statefile"
+    else
+        savepos "$newfile" "$starttrim"
     fi
-    savepos "$newfile" "$starttrim"
     exec "$0" "$outfile"
 fi
