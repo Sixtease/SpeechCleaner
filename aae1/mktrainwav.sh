@@ -28,7 +28,7 @@ fi
 
 endpos="$(( $pos + $len ))"
 echo -n "$file $pos .. $endpos ... "
-sox "$datadir/$file" "$outfile" trim "$pos"s "$len"s > /dev/null
+sox "$datadir/$file" "$outfile" remix - trim "$pos"s "$len"s > /dev/null
 reallen=`soxi "$outfile" | grep -o '[0-9]\+ samples' | cut -d ' ' -f 1`
 
 if [ "$reallen" -eq "$len" ]; then
