@@ -14,7 +14,8 @@ if [ -z "$srcdir" ]; then usage; fi;
 if [ -z "$destdir" ]; then usage; fi;
 
 while read line; do
-    item=`echo "$line" | sed 's/#.*//'`
+    if echo "$line" | grep -iq '# *test'; then continue; fi
+    item=`echo "$line" | sed 's/ *#.*//'`
     if echo "$item" | grep -vq '.'; then continue; fi
     file=`ls "$srcdir/$item"*`
     if [ -z "$file" ]; then continue; fi
